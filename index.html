@@ -56,14 +56,25 @@
             document.getElementById('iso-week').textContent = isoInfo.week;
         }
 
+        function copyMJD() {
+            var mjdValue = document.getElementById("mjd").textContent;
+            navigator.clipboard.writeText(mjdValue).then(function() {
+                alert("MJD copied.");
+            }, function(error) {
+                console.error("Unable to copy MJD: ", error);
+            });
+        }
+
         setInterval(updateMJD, 1000); // Update every second
     </script>
+
     <meta name="yandex-verification" content="950a00cc87cbc4b4" />
     <meta name="msvalidate.01" content="633D94030C3E09C16596C75E4FCDD216" />
+
 </head>
 <body>
     <h1>Modified Julian Date</h1>
-    <p>MJD: <span id="mjd"></span></p>
+    <p>MJD: <span id="mjd" onclick="copyMJD()"></span>📋</p>
     <p id="iso-date"></p>
     <p>ISO Week: <b><span id="iso-week"></span></b> Day of Year: <b><span id="iso-day-of-year"></span></b></p>
 </body>
