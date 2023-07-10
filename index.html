@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modified Julian Date</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        h1 {
+            font-size: 48px;
+        }
+
+        p {
+            font-size: 24px;
+        }
+    </style>
+    <script>
+        function updateMJD() {
+            var currentDate = new Date();
+            var epoch = new Date(1858, 10, 17); // November is represented by index 10
+            var mjd = (currentDate - epoch) / (1000 * 86400);
+            document.getElementById("mjd").textContent = mjd.toFixed(5);
+
+            // Display the ISO 8601 date in UTC
+            var isoDate = currentDate.toISOString();
+            document.getElementById("iso-date").textContent = "ISO 8601: " + isoDate;
+        }
+
+        setInterval(updateMJD, 1000); // Update every second
+    </script>
+</head>
+<body>
+    <h1>Modified Julian Date</h1>
+    <p>MJD: <span id="mjd"></span></p>
+    <p id="iso-date"></p>
+</body>
+</html>
