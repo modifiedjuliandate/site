@@ -18,26 +18,53 @@
         }
     </style>
     <script>
+        function calculateMJD(date) {
+            var epoch = new Date(1858, 10, 17); // November is represented by index 10
+            return (date - epoch) / (1000 * 86400);
+        }
+
+        function calculateISOWeekAndDayOfYear(date) {
+            var startOfYear = new Date(date.getFullYear(), 0, 1);
+            var day = startOfYear.getDay();
+            var dayOfYear = Math.floor((date - startOfYear) / (1000 * 60 * 60 * 24)) + 1;
+
+            var week;
+            if (day === 4 || (day === 3 && dayOfYear === 1)) {
+                week = Math.ceil(dayOfYear / 7);
+            } else {
+                startOfYear.setDate(1 + ((4 - day + 7) % 7));
+                week = Math.ceil((date - startOfYear) / (1000 * 60 * 60 * 24 * 7)) + 1;
+            }
+
+            return {
+                dayOfYear: dayOfYear,
+                week: week
+            };
+        }
+
         function updateMJD() {
             var currentDate = new Date();
-            var epoch = new Date(1858, 10, 17); // November is represented by index 10
-            var mjd = (currentDate - epoch) / (1000 * 86400);
+            var mjd = calculateMJD(currentDate);
             document.getElementById("mjd").textContent = mjd.toFixed(5);
 
             // Display the ISO 8601 date in UTC
             var isoDate = currentDate.toISOString();
             document.getElementById("iso-date").textContent = "ISO 8601: " + isoDate;
+
+            var isoInfo = calculateISOWeekAndDayOfYear(currentDate);
+            document.getElementById('iso-day-of-year').textContent = isoInfo.dayOfYear;
+            document.getElementById('iso-week').textContent = isoInfo.week;
         }
 
         setInterval(updateMJD, 1000); // Update every second
     </script>
-
-<meta name="yandex-verification" content="950a00cc87cbc4b4" />
-<meta name="msvalidate.01" content="633D94030C3E09C16596C75E4FCDD216" />
+    <meta name="yandex-verification" content="950a00cc87cbc4b4" />
+    <meta name="msvalidate.01" content="633D94030C3E09C16596C75E4FCDD216" />
 </head>
 <body>
     <h1>Modified Julian Date</h1>
     <p>MJD: <span id="mjd"></span></p>
     <p id="iso-date"></p>
+    <p>ISO Week: <b><span id="iso-week"></span></b> Day of Year: <b><span id="iso-day-of-year"></span></b></p>
 </body>
 </html>
