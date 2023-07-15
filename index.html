@@ -87,15 +87,33 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
         }
 
         setInterval(updateMJD, 1000); // Update every second
+
+	// Function to get a random time interval between min and max values
+        function getRandomInterval(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // Function to update the MJD and set the new random interval
+        function updateAndRefresh() {
+            updateMJD();
+
+        // Set a new random interval between 500 and 3000 milliseconds (0.5 to 3 seconds)
+        var randomInterval = getRandomInterval(500, 3000);
+        setTimeout(updateAndRefresh, randomInterval);
+        }
+
+        // Call the function once to start the random refresh
+        updateAndRefresh();
     </script>
 
     <meta name="yandex-verification" content="950a00cc87cbc4b4" />
     <meta name="msvalidate.01" content="633D94030C3E09C16596C75E4FCDD216" />
+    <meta http-equiv="refresh" content="300"> 
 
 </head>
 <body>
     <h1>Modified Julian Date</h1>
-    <p>MJD: <span id="mjd" onclick="copyMJD()"></span>📋</p>
+    <p>MJD: <span id="mjd" onclick="copyMJD()"></span><svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" fill="red"></path> </svg></p>
     <p id="iso-date"></p>
     <p>ISO Week: <b><span id="iso-week"></span></b> Day of Year: <b><span id="iso-day-of-year"></span></b></p>
 </body>
